@@ -26,10 +26,5 @@ export function TypewriterTitle({
     return () => clearInterval(interval);
   }, [text]);
 
-  return (
-    <h1 className={className}>
-      {text.slice(0, length)}
-      <span className="animate-pulse">|</span>
-    </h1>
-  );
+  return <h1 className={className}>{text.slice(0, length)}</h1>;
 }
