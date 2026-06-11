@@ -16,7 +16,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "ایمیل",
-    value: "dr.marziyefeizi@gmail.com",
+    value: "mrth1353@gmail.com",
   },
   {
     icon: Clock,

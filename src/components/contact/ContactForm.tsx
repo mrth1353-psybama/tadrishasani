@@ -3,8 +3,6 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-const CONTACT_EMAIL = "dr.marziyefeizi@gmail.com";
-
 const topics = [
   "تحلیل آماری پایان‌نامه/مقاله",
   "مدل‌یابی معادلات ساختاری (SEM)",
@@ -14,25 +12,42 @@ const topics = [
 ];
 
 export function ContactForm() {
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    setError(null);
+    setLoading(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const name = String(formData.get("name") ?? "");
     const email = String(formData.get("email") ?? "");
     const topic = String(formData.get("topic") ?? "");
     const message = String(formData.get("message") ?? "");
 
-    const subject = `درخواست مشاوره: ${topic}`;
-    const body = `نام: ${name}\nایمیل: ${email}\nموضوع: ${topic}\n\nپیام:\n${message}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, topic, message }),
+      });
 
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error ?? "خطا در ارسال پیام.");
+      }
 
-    setSubmitted(true);
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "خطا در ارسال پیام.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -109,16 +124,17 @@ export function ContactForm() {
         />
       </div>
 
-      <Button type="submit" className="w-full sm:w-auto">
-        ارسال پیام
+      <Button type="submit" disabled={loading} className="w-full sm:w-auto">
+        {loading ? "در حال ارسال..." : "ارسال پیام"}
       </Button>
 
       {submitted && (
         <p className="text-sm text-brand-teal">
-          برنامه ایمیل شما باز می‌شود تا پیام را ارسال کنید. اگر چیزی باز
-          نشد، می‌توانید مستقیماً به آدرس {CONTACT_EMAIL} ایمیل بزنید.
+          پیام شما با موفقیت ارسال شد. به‌زودی پاسخ می‌دهیم.
         </p>
       )}
+
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </form>
   );
 }

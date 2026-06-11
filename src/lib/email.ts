@@ -39,3 +39,36 @@ export async function notifyNewOrder({
     `,
   });
 }
+
+export async function notifyContactMessage({
+  name,
+  email,
+  topic,
+  message,
+}: {
+  name: string;
+  email: string;
+  topic: string;
+  message: string;
+}) {
+  if (!resend) {
+    console.warn("RESEND_API_KEY تنظیم نشده؛ ایمیل فرم تماس ارسال نشد.");
+    return;
+  }
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ADMIN_EMAIL,
+    replyTo: email,
+    subject: `درخواست مشاوره: ${topic}`,
+    html: `
+      <div dir="rtl" style="font-family: Tahoma, sans-serif; line-height: 1.8;">
+        <h2>پیام جدید از فرم تماس سایت</h2>
+        <p><strong>نام:</strong> ${name}</p>
+        <p><strong>ایمیل:</strong> ${email}</p>
+        <p><strong>موضوع:</strong> ${topic}</p>
+        <p><strong>پیام:</strong><br />${message.replace(/\n/g, "<br />")}</p>
+      </div>
+    `,
+  });
+}

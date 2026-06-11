@@ -20,8 +20,8 @@
   --color-background: var(--color-brand-ivory);
   --color-foreground: var(--color-brand-charcoal);
 
-  --font-heading: var(--font-amiri);
-  --font-sans: var(--font-vazirmatn);
+  --font-heading: var(--font-iransans);
+  --font-sans: var(--font-iransans);
   --font-mono: var(--font-jetbrains-mono);
 }
 
@@ -35,5 +35,5 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-heading), serif;
+  font-family: var(--font-heading), system-ui, sans-serif;
 }
