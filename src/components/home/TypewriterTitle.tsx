@@ -31,8 +31,8 @@ export function TypewriterTitle({
           }
           return current + 1;
         });
-      }, 110);
-    }, 3000);
+      }, 80);
+    }, 1000);
 
     return () => {
       clearTimeout(timeout);
