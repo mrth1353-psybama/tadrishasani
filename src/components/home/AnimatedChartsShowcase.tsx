@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type CSSVars = React.CSSProperties & Record<string, string | number>;
 
-const SCENE_DURATION = 12000;
+const SCENE_DURATION = 3000;
 
 const scenes = [
   {
