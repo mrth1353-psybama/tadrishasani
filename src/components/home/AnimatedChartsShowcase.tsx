@@ -304,7 +304,7 @@ export function AnimatedChartsShowcase() {
   const scene = scenes[index];
 
   return (
-    <div className="rounded-3xl border border-brand-charcoal/10 bg-brand-cream p-8 shadow-lg">
+    <div className="rounded-3xl border border-brand-charcoal/10 bg-gradient-to-br from-brand-sand to-brand-peach p-8 shadow-lg">
       <p className="font-mono text-sm text-brand-gray">{scene.label}</p>
       <p className="mt-1 font-mono text-sm text-brand-teal">{scene.caption}</p>
 
