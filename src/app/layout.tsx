@@ -4,6 +4,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ChatBot } from "@/components/shared/ChatBot";
 import { siteConfig } from "@/lib/site-config";
 import { getCurrentUser } from "@/lib/supabase/server";
 
@@ -40,6 +41,7 @@ export default async function RootLayout({
         <Header isAuthenticated={Boolean(user)} />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ChatBot />
       </body>
     </html>
   );
